@@ -8,7 +8,8 @@
 body {
   font-family: 'Segoe UI', sans-serif;
   color: #000;
-  background-image: url('https://media.istockphoto.com/id/844226534/photo/leaf-background.jpg?s=612x612&w=0&k=20&c=N4NPPNXFU5hPcThEbQ-wr4y64pqSKm-x5AMDZ0sPL5w=');
+  background-color: #ccc;
+ 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
