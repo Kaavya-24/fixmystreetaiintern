@@ -1,7 +1,9 @@
 import Head from 'next/head';
-
+import { useRouter } from 'next/router';
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -19,8 +21,16 @@ export default function Home() {
         <a href="/faq" className="active">❓ FAQ & Help</a>
       </nav>
 
+
       {/* 💡 Title */}
       <div className="title">FixMyStreetAI </div>
+      <div className="title">Click the below buttons⬇️ </div>
+      <div className="home-container">
+      <button onClick={() => router.push('/citizen')}>CITIZEN🙎‍♂️</button>
+      <button onClick={() => router.push('/admin')}>ADMIN👮</button>
+</div>
+
+
 
       {/* 🖼️ Image Grid */}
       <div className="image-grid">
