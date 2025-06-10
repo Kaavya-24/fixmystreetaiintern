@@ -144,6 +144,7 @@ export default function SuperAdmin() {
             <button onClick={() => showForm("announce")}>Announcements</button>
           </div>
         </div>
+        
       </div>
 
       <style jsx>{`

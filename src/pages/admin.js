@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function AdminPage() {
   const [activeSection, setActiveSection] = useState("viewReports");
+  const router = useRouter();
 
   return (
     <>
@@ -24,6 +26,7 @@ export default function AdminPage() {
           <button onClick={() => setActiveSection("changeStatus")}>Change Status</button>
           <button onClick={() => setActiveSection("assignTasks")}>Assign Tasks</button>
           <button onClick={() => setActiveSection("sendNotifications")}>Send Notifications</button>
+          <button onClick={() => setActiveSection("complaintCount")}>Complaint Count</button>
         </aside>
 
         {/* Main Content */}
@@ -48,23 +51,13 @@ export default function AdminPage() {
               <button type="submit">Search</button>
             </form>
           )}
-
           {activeSection === "changeStatus" && (
-            <form className="form-box">
-              <h2>🔄 Change Status</h2>
-              <label>Grievance ID:</label>
-              <input type="text" />
-
-              <label>Status:</label>
-              <div>
-                <input type="radio" name="status" value="new" /> New
-                <input type="radio" name="status" value="inprogress" style={{ marginLeft: "20px" }} /> In Progress
-                <input type="radio" name="status" value="resolved" style={{ marginLeft: "20px" }} /> Resolved
-              </div>
-
-              <button type="submit">Update Status</button>
-            </form>
+            <div className="form-box">
+              <h2>📊 Change Status</h2>
+              <button className="report-btn" onClick={() => router.push('/changestatus')}>Change Status</button>
+            </div>
           )}
+
 
           {activeSection === "assignTasks" && (
             <form className="form-box">
@@ -102,6 +95,13 @@ export default function AdminPage() {
 
               <button type="submit">Send</button>
             </form>
+          )}
+
+          {activeSection === "complaintCount" && (
+            <div className="form-box">
+              <h2>📊 Complaint Count</h2>
+              <button className="report-btn" onClick={() => router.push('/complaintcount')}>ComplaintCount</button>
+            </div>
           )}
         </div>
       </div>
@@ -248,6 +248,17 @@ export default function AdminPage() {
           background-color: white;
           color: #000;
           border: 1px solid #7796b8;
+        }
+
+        .report-btn {
+          background-color: red;
+          color: white;
+          padding: 12px;
+          border: none;
+          font-size: 16px;
+          border-radius: 5px;
+          cursor: pointer;
+          margin-top: 20px;
         }
       `}</style>
     </>
