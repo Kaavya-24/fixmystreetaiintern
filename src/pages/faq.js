@@ -1,10 +1,16 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Faq() {
   const [helpClicked, setHelpClicked] = useState(false);
+  const router = useRouter();
 
   const toggleHelpButton = () => {
     setHelpClicked(!helpClicked);
+  };
+
+  const handleGoToAssistant = () => {
+    router.push("/askai");
   };
 
   return (
@@ -15,9 +21,7 @@ export default function Faq() {
         <a href="/citizen">🧑 Citizen</a>
         <a href="/admin">👮 Admin</a>
         <a href="/superadmin">🛡️ Super Admin</a>
-        <a href="/faq" className="active">
-          ❓ FAQ & Help
-        </a>
+        <a href="/faq" className="active">❓ FAQ & Help</a>
       </nav>
 
       <div className="container">
@@ -43,49 +47,25 @@ export default function Faq() {
           <h2>📊 App Usage Level</h2>
           <progress value="85" max="100"></progress>
           <p>Citizens across 85% of wards actively use this platform.</p>
-
           <table>
             <thead>
-              <tr>
-                <th>Year</th>
-                <th>Complaints Solved (%)</th>
-              </tr>
+              <tr><th>Year</th><th>Complaints Solved (%)</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td>2019</td>
-                <td>72%</td>
-              </tr>
-              <tr>
-                <td>2020</td>
-                <td>78%</td>
-              </tr>
-              <tr>
-                <td>2021</td>
-                <td>83%</td>
-              </tr>
-              <tr>
-                <td>2022</td>
-                <td>87%</td>
-              </tr>
-              <tr>
-                <td>2023</td>
-                <td>90%</td>
-              </tr>
+              <tr><td>2019</td><td>72%</td></tr>
+              <tr><td>2020</td><td>78%</td></tr>
+              <tr><td>2021</td><td>83%</td></tr>
+              <tr><td>2022</td><td>87%</td></tr>
+              <tr><td>2023</td><td>90%</td></tr>
             </tbody>
           </table>
         </section>
 
-        <section className="ask-help">
-          <h2>📝 Still have doubts?</h2>
-          <textarea placeholder="Ask your questions here..."></textarea>
-          <button
-            id="findHelpBtn"
-            className={helpClicked ? "clicked" : ""}
-            onClick={toggleHelpButton}
-          >
-            Find Help
-          </button>
+        {/* ✅ AI Assistant Help Box */}
+        <section className="ai-help-box">
+          <h2>🆘 Need Help or Ask Questions</h2>
+          <p>Use our AI Assistant to clear your doubts 🤖🧠💬</p>
+          <button onClick={handleGoToAssistant}>🤔 Go to AI Assistant</button>
         </section>
       </div>
 
@@ -93,20 +73,14 @@ export default function Faq() {
         :global(body) {
           margin: 0;
           font-family: 'Segoe UI', sans-serif;
-         
-  background-color: #f3e8ff !important;
-
-
-         
+          background-color: #f3e8ff !important;
           color: #333;
           animation: blurToClear 1s ease forwards;
           filter: blur(8px);
         }
 
         @keyframes blurToClear {
-          to {
-            filter: blur(0);
-          }
+          to { filter: blur(0); }
         }
 
         nav {
@@ -141,12 +115,11 @@ export default function Faq() {
         .tutorial h1,
         .video-section h2,
         .usage h2,
-        .ask-help h2 {
+        .ai-help-box h2 {
           color: #6a1a9c;
           margin-bottom: 10px;
         }
 
-        /* UPDATED: Make instructions in ol white */
         .tutorial ol {
           padding-left: 20px;
           margin-bottom: 40px;
@@ -163,7 +136,6 @@ export default function Faq() {
           width: 100%;
           height: 25px;
           appearance: none;
-          -webkit-appearance: none;
           margin-bottom: 10px;
         }
 
@@ -184,8 +156,7 @@ export default function Faq() {
           font-size: 16px;
         }
 
-        .usage th,
-        .usage td {
+        .usage th, .usage td {
           border: 1px solid #ae58eb;
           padding: 12px 15px;
           text-align: center;
@@ -205,32 +176,40 @@ export default function Faq() {
           background-color: #ffffff;
         }
 
-        .ask-help textarea {
-          width: 100%;
-          height: 120px;
-          padding: 12px;
-          border-radius: 8px;
-          border: 1px solid #ccc;
-          margin-bottom: 15px;
-          font-size: 16px;
-          resize: vertical;
+        .ai-help-box {
+          margin-top: 50px;
+          padding: 30px;
+          background: #e7d5f7;
+          border-radius: 20px;
+          text-align: center;
+          box-shadow: 0 0 12px rgba(0,0,0,0.1);
         }
 
-        .ask-help button {
-          background-color: #ae58eb;
+        .ai-help-box h2 {
+          color: black;
+          font-size: 1.6rem;
+          margin-bottom: 10px;
+        }
+
+        .ai-help-box p {
+          font-size: 1.1rem;
+          color: #333;
+          margin-bottom: 20px;
+        }
+
+        .ai-help-box button {
+          background-color: #6a1a9c;
           color: white;
-          padding: 12px 20px;
+          padding: 12px 25px;
           border: none;
-          border-radius: 6px;
-          font-size: 16px;
+          border-radius: 8px;
+          font-size: 1rem;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: background-color 0.3s ease;
         }
 
-        .ask-help button.clicked {
-          background-color: white;
-          color: #ae58eb;
-          border: 1px solid #ae58eb;
+        .ai-help-box button:hover {
+          background-color: #4b007c;
         }
       `}</style>
     </>

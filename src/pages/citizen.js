@@ -20,6 +20,8 @@ export default function CitizenPage() {
           <div className="button-box">
             <button className="report-btn" onClick={() => router.push('/reportissue')}>Report Issue</button>
             <button className="withdraw-btn" onClick={() => router.push('/withdrawissue')}>Withdraw Issue</button>
+            <button className="report-btn" onClick={() => router.push('/issueclassify')}>Auto Classify</button>
+            
           </div>
           <form className="form-box">
             <h2>Citizen Information</h2>

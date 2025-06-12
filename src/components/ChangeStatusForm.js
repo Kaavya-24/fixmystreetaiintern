@@ -28,7 +28,7 @@ export default function ChangeStatusForm() {
         setMessage('');
         setGrievanceId('');
         setStatus('');
-      }, 3000);
+      }, 10000);
 
       return () => clearTimeout(timer); // Cleanup timer on unmount or message change
     }
