@@ -1,12 +1,34 @@
 import { useState, useEffect } from 'react';
+import { db } from '../../firebase/firebaseConfig'; // adjust path if needed
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function WithdrawIssueForm() {
   const [count, setCount] = useState(0);
   const [message, setMessage] = useState('');
+  const [formData, setFormData] = useState({
+    issueId: '',
+    complaintDate: '',
+    resolvedDate: ''
+  });
 
-  const handleWithdraw = (e) => {
+  const handleWithdraw = async (e) => {
     e.preventDefault();
-    setCount(prev => prev + 1);
+    try {
+      await addDoc(collection(db, 'issueswithdrawed'), {
+        ...formData,
+        timestamp: serverTimestamp()
+      });
+      setCount(prev => prev + 1);
+      setFormData({ issueId: '', complaintDate: '', resolvedDate: '' });
+    } catch (error) {
+      console.error('Error withdrawing issue: ', error);
+      setMessage('❌ Failed to withdraw. Please try again.');
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   useEffect(() => {
@@ -24,13 +46,13 @@ export default function WithdrawIssueForm() {
       <h2>Withdraw Issue</h2>
       <form onSubmit={handleWithdraw}>
         <label>Enter Issue ID:</label>
-        <input type="text" required />
+        <input type="text" name="issueId" value={formData.issueId} onChange={handleChange} required />
 
         <label>Date of Complaint:</label>
-        <input type="date" required />
+        <input type="date" name="complaintDate" value={formData.complaintDate} onChange={handleChange} required />
 
         <label>Date Issue Was Resolved:</label>
-        <input type="date" required />
+        <input type="date" name="resolvedDate" value={formData.resolvedDate} onChange={handleChange} required />
 
         <button type="submit" className="withdraw-btn">Withdraw Issue</button>
       </form>
@@ -44,11 +66,11 @@ export default function WithdrawIssueForm() {
           padding: 40px;
           background-color: #ffe4e6; /* Light pink background */
           min-height: 100vh;
-          color:black; /* White text for container */
+          color: black; /* White text for container */
         }
 
         h2 {
-          color: black; /* White text for heading */
+          color: black;
           margin-bottom: 20px;
           text-align: center;
         }
@@ -61,7 +83,7 @@ export default function WithdrawIssueForm() {
 
         label {
           font-weight: bold;
-          color: black; /* White text for labels */
+          color: black;
         }
 
         input[type="text"],
@@ -71,12 +93,12 @@ export default function WithdrawIssueForm() {
           border-radius: 5px;
           border: 1px solid #ccc;
           background-color: #fff;
-          color: #333; /* Dark text for readability in inputs */
+          color: #333;
         }
 
         .withdraw-btn {
-          background-color: rgb(217, 101, 115); /* Button color */
-          color: white; /* White text for button */
+          background-color: rgb(217, 101, 115);
+          color: white;
           padding: 12px;
           border: none;
           font-size: 16px;
@@ -86,11 +108,11 @@ export default function WithdrawIssueForm() {
         }
 
         .withdraw-btn:hover {
-          background-color: rgb(230, 18, 75); /* Hover color */
+          background-color: rgb(230, 18, 75);
         }
 
         p {
-          color: black; /* Black text for message */
+          color: black;
           margin-top: 30px;
           text-align: center;
         }

@@ -1,7 +1,42 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { db } from '../../firebase/firebaseConfig';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 
 export default function CitizenPage() {
   const router = useRouter();
+
+  const [formData, setFormData] = useState({
+    name: '',
+    contact: '',
+    altContact: '',
+    email: '',
+    district: '',
+    block: '',
+    village: '',
+    address: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await addDoc(collection(db, "citizens"), {
+        ...formData,
+        timestamp: Timestamp.now()
+      });
+      alert("Citizen information saved successfully!");
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      alert("Failed to save data.");
+    }
+  };
 
   return (
     <>
@@ -16,31 +51,32 @@ export default function CitizenPage() {
 
       <div className="background">
         <div className="form-container">
-          {/* Left side: Citizen Form */}
+          {/* Left: Buttons */}
           <div className="button-box">
             <button className="report-btn" onClick={() => router.push('/reportissue')}>Report Issue</button>
             <button className="withdraw-btn" onClick={() => router.push('/withdrawissue')}>Withdraw Issue</button>
             <button className="report-btn" onClick={() => router.push('/issueclassify')}>Auto Classify</button>
-            
           </div>
-          <form className="form-box">
+
+          {/* Right: Form */}
+          <form className="form-box" onSubmit={handleSubmit}>
             <h2>Citizen Information</h2>
             <p className="mandatory">* Mandatory Fields</p>
 
             <label>* Name:</label>
-            <input type="text" required />
+            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
 
             <label>* Contact No:</label>
-            <input type="tel" required />
+            <input type="tel" name="contact" value={formData.contact} onChange={handleChange} required />
 
             <label>Alternative Phone No:</label>
-            <input type="tel" />
+            <input type="tel" name="altContact" value={formData.altContact} onChange={handleChange} />
 
             <label>* Email:</label>
-            <input type="email" required />
+            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
 
             <label>* District:</label>
-            <select required>
+            <select name="district" value={formData.district} onChange={handleChange} required>
               <option value="">--Select--</option>
               <option>Tirunelveli</option>
               <option>Chennai</option>
@@ -48,28 +84,28 @@ export default function CitizenPage() {
             </select>
 
             <label>* Block:</label>
-            <select required>
+            <select name="block" value={formData.block} onChange={handleChange} required>
               <option value="">--Select--</option>
               <option>Urban</option>
               <option>Rural</option>
             </select>
 
             <label>* Village:</label>
-            <select required>
+            <select name="village" value={formData.village} onChange={handleChange} required>
               <option value="">--Select--</option>
               <option>Village A</option>
               <option>Village B</option>
             </select>
 
             <label>* Address:</label>
-            <textarea rows="3" required></textarea>
-          </form>
+            <textarea name="address" value={formData.address} onChange={handleChange} rows="3" required></textarea>
 
-          
-          
+            <button type="submit" className="report-btn">Save Info</button>
+          </form>
         </div>
       </div>
 
+      {/* ✅ INTERNAL STYLES */}
       <style jsx>{`
         * {
           box-sizing: border-box;
@@ -171,7 +207,6 @@ export default function CitizenPage() {
           justify-content: center;
           align-items: center;
         }
-           
 
         .report-btn, .withdraw-btn {
           width: 100%;

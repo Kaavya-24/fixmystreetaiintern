@@ -1,38 +1,69 @@
 import { useState, useEffect } from 'react';
+import { db } from '../../firebase/firebaseConfig';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  addDoc,
+} from 'firebase/firestore';
 
 export default function ChangeStatusForm() {
   const [grievanceId, setGrievanceId] = useState('');
   const [status, setStatus] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (grievanceId && status) {
+
+    if (!grievanceId || !status) {
+      setMessage('❗ Please enter a grievance ID and select a status.');
+      return;
+    }
+
+    try {
+      const colRef = collection(db, 'issuestatus');
+      const q = query(colRef, where('grievanceId', '==', grievanceId));
+      const snapshot = await getDocs(q);
+
       let statusText = status;
-      if (status === 'inprogress') {
-        statusText = 'In Progress 🚀';
-      } else if (status === 'complete') {
-        statusText = 'Complete ✅';
+      if (status === 'inprogress') statusText = 'In Progress 🚀';
+      else if (status === 'complete') statusText = 'Complete ✅';
+
+      if (snapshot.empty) {
+        // First-time status (e.g., new)
+        await addDoc(colRef, {
+          grievanceId,
+          status,
+          timestamp: new Date(),
+        });
+        setMessage(`🆕 Grievance ID: ${grievanceId} created with status "${statusText}"`);
+      } else {
+        // Update existing document
+        const docRef = snapshot.docs[0].ref;
+        await updateDoc(docRef, {
+          status,
+          timestamp: new Date(),
+        });
+        setMessage(`✅ Grievance ID: ${grievanceId} updated to "${statusText}"`);
       }
-      setMessage(`Grievance ID: ${grievanceId} is updated to ${statusText} status`);
+    } catch (error) {
+      console.error('Error updating grievance status:', error);
+      setMessage('❌ Failed to update status. Please try again.');
     }
   };
 
   useEffect(() => {
     if (message) {
-      // Simulate saving status change to a database
-      console.log(`Saving to database: Grievance ID: ${grievanceId}, Status: ${status}`);
-      
-      // Reset form after 3 seconds to clear message and inputs
       const timer = setTimeout(() => {
         setMessage('');
         setGrievanceId('');
         setStatus('');
-      }, 10000);
-
-      return () => clearTimeout(timer); // Cleanup timer on unmount or message change
+      }, 4000);
+      return () => clearTimeout(timer);
     }
-  }, [message, grievanceId, status]);
+  }, [message]);
 
   return (
     <div className="container">
@@ -56,7 +87,8 @@ export default function ChangeStatusForm() {
                 value="new"
                 checked={status === 'new'}
                 onChange={(e) => setStatus(e.target.value)}
-              /> New
+              />{' '}
+              New
             </label>
             <label>
               <input
@@ -65,7 +97,8 @@ export default function ChangeStatusForm() {
                 value="inprogress"
                 checked={status === 'inprogress'}
                 onChange={(e) => setStatus(e.target.value)}
-              /> In Progress
+              />{' '}
+              In Progress
             </label>
             <label>
               <input
@@ -74,7 +107,8 @@ export default function ChangeStatusForm() {
                 value="complete"
                 checked={status === 'complete'}
                 onChange={(e) => setStatus(e.target.value)}
-              /> Complete
+              />{' '}
+              Complete
             </label>
           </div>
 
@@ -87,7 +121,7 @@ export default function ChangeStatusForm() {
       <style jsx>{`
         .container {
           min-height: 100vh;
-          background-color: #e0e7ff; /* Light indigo */
+          background-color: #e0e7ff;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -95,7 +129,7 @@ export default function ChangeStatusForm() {
         }
 
         .form-box {
-          background-color: rgba(75, 85, 99, 0.9); /* Grey shade */
+          background-color: rgba(75, 85, 99, 0.9);
           padding: 30px;
           border-radius: 10px;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -117,7 +151,7 @@ export default function ChangeStatusForm() {
           color: white;
         }
 
-        input[type="text"] {
+        input[type='text'] {
           width: 100%;
           padding: 10px;
           margin-top: 5px;
@@ -141,14 +175,14 @@ export default function ChangeStatusForm() {
           font-weight: normal;
         }
 
-        input[type="radio"] {
+        input[type='radio'] {
           accent-color: #4b5563;
         }
 
-        button[type="submit"] {
+        button[type='submit'] {
           width: 100%;
           padding: 12px;
-          background-color: #4b5563; /* Darker grey for button */
+          background-color: #4b5563;
           color: white;
           border: none;
           border-radius: 5px;
@@ -158,7 +192,7 @@ export default function ChangeStatusForm() {
           transition: background-color 0.3s ease;
         }
 
-        button[type="submit"]:hover {
+        button[type='submit']:hover {
           background-color: #6b7280;
         }
 
