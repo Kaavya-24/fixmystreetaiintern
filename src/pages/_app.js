@@ -1,5 +1,12 @@
-import '../styles/style.css';  // Adjust path if needed
+// pages/_app.js
+import '@/styles/style.css';
+import { Analytics } from '@vercel/analytics/react';
 
-export default function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+export default function App({ Component, pageProps }) {
+  return (
+    <>
+      <Component {...pageProps} />
+      <Analytics />
+    </>
+  );
 }
