@@ -6,7 +6,6 @@ export default async function handler(req, res) {
   }
 
   const { reportText } = req.body;
-
   if (!reportText) {
     return res.status(400).json({ error: "Missing reportText in request." });
   }
@@ -21,28 +20,32 @@ export default async function handler(req, res) {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `
-You are a smart issue classifier.
-Given a citizen complaint, respond **only** with a raw JSON like:
-{"category":"Drainage", "urgency":"High", "department":"Water Works"}
+Return ONLY valid JSON. No explanation.
 
-Complaint:
-"${reportText}"
-`;
+Example:
+{"category":"Drainage","urgency":"High","department":"Water Works"}
+
+Complaint: "${reportText}"
+    `;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
     let text = await response.text();
 
-    // 🧽 Remove Markdown formatting like ```json ... ```
-    text = text.trim();
-    if (text.startsWith("```")) {
-      text = text.replace(/```(?:json)?/g, "").replace(/```/g, "").trim();
+    // Remove code block marks
+    text = text.replace(/```json|```/g, "").trim();
+
+    // Extract only JSON using regex
+    let jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      throw new Error("AI did not return JSON format.");
     }
 
-    const parsed = JSON.parse(text);
-    res.status(200).json(parsed);
+    const parsed = JSON.parse(jsonMatch[0]);
+    return res.status(200).json(parsed);
+
   } catch (error) {
-    console.error("❌ Gemini API Error:", error.message || error);
-    res.status(500).json({ error: "AI classification failed." });
+    console.error("❌ Gemini Error:", error);
+    return res.status(500).json({ error: "AI classification failed." });
   }
 }
