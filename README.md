@@ -60,7 +60,6 @@ Powered by **Google Gemini 1.5 Flash**
 | Image Classification | Detects potholes, garbage, sewage leak, etc. |
 | Text Classification | Extracts issue type & urgency |
 | Auto Department Mapping | Maps issue → correct government department |
-| Priority Estimation | Low / Medium / High severity |
 | Conversational Assistant | Helps users & admins |
 
 🏗️ Tech Stack
