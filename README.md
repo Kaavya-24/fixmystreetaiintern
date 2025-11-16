@@ -139,9 +139,9 @@ http://localhost:3000
 
 🌱 Future Enhancements
 
-✔ Mobile app (React Native)
-✔ Multi-language support
-✔ WhatsApp-based reporting
+✔ Mobile app (React Native) ✔ Multi-language support ✔ WhatsApp-based reporting
+
+
 ✔ OCR to read text from images
 ✔ Geo-fencing alerts
 ✔ Automatic duplicate complaint detection
