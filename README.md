@@ -1,7 +1,7 @@
 FixMyStreetAI – Smart Civic Issue Reporting Platform
 
 FixMyStreetAI is an **AI-powered civic grievance reporting and urban issue management system** designed to streamline public grievance redressal.  
-It allows **citizens** to report issues like potholes, broken streetlights, garbage dumps, and drainage leaks using **text, images, and GPS locations.**  
+It allows **citizens** to report issues like potholes, broken streetlights, garbage dumps, and drainage leaks.  
 Government officials can track, classify, prioritize, and resolve problems through a **smart admin dashboard**.
 
 The platform leverages **Google Gemini AI** for:
@@ -142,10 +142,7 @@ http://localhost:3000
 ✔ Mobile app (React Native) ✔ Multi-language support ✔ WhatsApp-based reporting
 
 
-✔ OCR to read text from images
-✔ Geo-fencing alerts
-✔ Automatic duplicate complaint detection
-✔ Integration with government SMS gateways
+✔ OCR to read text from images  ✔ Geo-fencing alerts ✔ Integration with government SMS gateways
 
 
 🔌 API Endpoints
