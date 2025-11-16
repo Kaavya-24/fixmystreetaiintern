@@ -113,49 +113,51 @@ src/
 │ ├── WithdrawIssueForm.js
 
 
-🔌 API Endpoints
+# 🔌 API Endpoints
 
  **POST /api/askai**
 AI chat assistant  
-Request:
+
+**Request**
 ```json
-{ "prompt": "How do I report an issue?" }
+{
+  "prompt": "How do I report an issue?"
+}
 
 POST /api/classify
-
 AI issue classifier
 Request:
-
-{ "reportText": "There is a pothole near the bus stop" }
-
+   {
+  "reportText": "There is a pothole near the bus stop"
+}
 
 Response:
-
-{
+    {
   "category": "Road Damage",
   "urgency": "High",
   "department": "Public Works Department"
-}
+   }
 
 
 🖥️ How to Run the Project Locally
 
-1. Clone the repository
+ **1. Clone the repository**
 git clone https://github.com/yourusername/FixMyStreetAI.git
 cd FixMyStreetAI
 
-2. Install dependencies
+ **2. Install dependencies**
 npm install
 
-3. Add your environment variables
-Create a .env.local:
-GOOGLE_API_KEY=your_gemini_api_key_here
+**3. Add your environment variables**
+Create a file named **.env.local**:
+   GOOGLE_API_KEY=your_gemini_api_key_here
 
-4. Run the development server
+**4. Run the development server**
 npm run dev
 
-5. Open in browser
+**5. Open in browser**
 http://localhost:3000
+
 
 🌱 Future Enhancements
 
