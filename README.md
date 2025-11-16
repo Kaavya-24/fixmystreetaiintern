@@ -85,9 +85,11 @@ FOLDER STRUCTURE
 
 firebase/
 ├── firebaseConfig.js
+
 public/
 ├── images/
 ├── icons/
+
 src/
 ├── pages/
 │ ├── index.js
@@ -102,42 +104,18 @@ src/
 │ ├── askai.js
 │ ├── classify.js
 │
+
 ├── styles/
 │ ├── globals.css
 │ ├── style.css
 │
+
+
 ├── components/
 │ ├── ChangeStatusForm.js
 │ ├── ComplaintCountForm.js
 │ ├── ReportIssueForm.js
 │ ├── WithdrawIssueForm.js
-
-
-# 🔌 API Endpoints
-
- **POST /api/askai**
-AI chat assistant  
-
-**Request**
-```json
-{
-  "prompt": "How do I report an issue?"
-}
-
-POST /api/classify
-AI issue classifier
-Request:
-   {
-  "reportText": "There is a pothole near the bus stop"
-}
-
-Response:
-    {
-  "category": "Road Damage",
-  "urgency": "High",
-  "department": "Public Works Department"
-   }
-
 
 🖥️ How to Run the Project Locally
 
@@ -168,6 +146,32 @@ http://localhost:3000
 ✔ Geo-fencing alerts
 ✔ Automatic duplicate complaint detection
 ✔ Integration with government SMS gateways
+
+
+🔌 API Endpoints
+
+ **POST /api/askai**
+AI chat assistant  
+
+**Request**
+```json
+{
+  "prompt": "How do I report an issue?"
+}
+
+POST /api/classify
+AI issue classifier
+Request:
+   {
+  "reportText": "There is a pothole near the bus stop"
+}
+
+Response:
+    {
+  "category": "Road Damage",
+  "urgency": "High",
+  "department": "Public Works Department"
+   }
 
 
 ⭐ If you like this project
