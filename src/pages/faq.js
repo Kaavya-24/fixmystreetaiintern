@@ -10,7 +10,7 @@ export default function Faq() {
   };
 
   const handleGoToAssistant = () => {
-    router.push("/askai");
+    router.push("/chatai");
   };
 
   return (
