@@ -91,6 +91,7 @@ public/
 ├── icons/
 
 src/
+
 ├── pages/
 │ ├── index.js
 │ ├── about.js
@@ -171,10 +172,6 @@ Response:
    }
 
 
-⭐ If you like this project
-
-Please star the repo — it motivates future development!
-⭐ Star this repository on GitHub
 
 
 
